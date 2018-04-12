@@ -61,16 +61,27 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </div>
-        <div style="width: 49%;float: right;background-color: #eee;border-radius: 30px;text-align: center" >
+        <div style="width: 49%;float: right;background-color: #eee;border-radius: 30px;text-align: center">
           <el-form :model='form'>
             <el-form-item>
               <p>父分类</p>
-                <el-select v-model="form.region" placeholder="请选择父分类"  style="width: 317px">
-                  <el-option label="比特网" value=""></el-option>
-                  <el-option label="天极网" value=""></el-option>
-                </el-select>
-              </el-form-item>
-            </el-form>
+              <el-select v-model="form.region" placeholder="请选择父分类" style="width: 317px">
+                <el-option label="比特网" value=""></el-option>
+                <el-option label="天极网" value=""></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <el-form>
+            <el-form-item label="">
+              <div class="edit_container">
+                <quill-editor style="height: 450px" v-model="infoForm.a_content" ref="myQuillEditor" class="editer" :options="infoForm.editorOption" @ready="onEditorReady($event)">
+                </quill-editor>
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">确认提交</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
 
@@ -80,17 +91,39 @@
 </template>
 
 <script>
-  /*eslint-disable*/
+  /* eslint-disable */
+  import {quillEditor} from 'vue-quill-editor' //调用编辑器
+  import 'quill/dist/quill.core.css'
+  import 'quill/dist/quill.snow.css'
+  import 'quill/dist/quill.bubble.css'
   export default {
     data() {
       return {
+        infoForm: {
+          a_title: '',
+          a_source: '',
+          a_content: '',
+          editorOption: {}
+        },
+        rules: {
+          a_title: [{
+            required: true,
+            message: '请输入标题',
+            trigger: 'blur'
+          }],
+          a_content: [{
+            required: true,
+            message: '请输入详细内容',
+            trigger: 'blur'
+          }]
+        },
         dialogVisible: false,
         defaultMsg: '请输入文字',
         form: {
           name: '',
-          region: '',
+          region: ''
         },
-              config: {
+        config: {
           initialFrameWidth: null,
           initialFrameHeight: 350
         },
@@ -132,13 +165,13 @@
       handleDelete(index, row) {
         console.log(index, row)
       },
-            getUEContent() {
-        let content = this.$refs.ue.getUEContent();
+      getUEContent() {
+        let content = this.$refs.ue.getUEContent()
         this.$notify({
           title: '获取成功，可在控制台查看！',
           message: content,
           type: 'success'
-        });
+        })
         console.log(content)
       },
       message() {
@@ -146,22 +179,38 @@
         this.dialogVisible = true
         // this.$forceUpdate()
         // 组件强制渲染非人类操作
+      },
+      onEditorReady(editor) {},
+      onSubmit() {
+        console.log(this.infoForm.a_content)
       }
+    },
+    computed: {
+      editor() {
+        return this.$refs.myQuillEditor.quill
+      }
+    },
+    mounted() {
+      //初始化
+    },
 
+    components: {
+      //使用编辑器
+      quillEditor
     }
   }
 
 </script>
 <style scoped>
-  
   .clearfix:after {
     display: block;
     clear: both;
-    content: "";
+    content: '';
     visibility: hidden;
     height: 0;
   }
-    .info{
+
+  .info {
     border-radius: 10px;
     line-height: 20px;
     padding: 10px;
