@@ -6,14 +6,24 @@ import Customer from '@/components/Customer'
 import Sale from '@/components/Sale'
 import ServiceSetting from '@/components/ServerSetting'
 import FormSetting from '@/components/FormSetting'
+import Login from '@/components/Login'
+import Store from '@/components/Fuwenben'
 Vue.use(Router)
 
 export default new Router({
   // mode: 'history',
   routes: [
     {
-      path: '/',
-      redirect: '/1/Customer'
+      path: '/'
+      // redirect: '/2'
+    },
+    {
+      path: '/3',
+      component: Store
+    },
+    {
+      path: '/2',
+      component: Login
     },
     {
       path: '/1',
