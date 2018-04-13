@@ -22,31 +22,28 @@
       </el-table>
       <!-- 弹出层 -->
       <el-dialog title="详情信息" :visible.sync="dialogFormVisible">
-        <div class="clearfix">
-          <div style="float: left;width: 40%">
-            <el-form :model="form">
-              <el-form-item label="姓名">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-              <el-form-item label="电话">
-                <el-input v-model="form.phone"></el-input>
-              </el-form-item>
-              <el-form-item label="时间">
-                <el-input v-model="form.time"></el-input>
-              </el-form-item>
-            </el-form>
+        <div class="clearfix" style="border: 1px solid #eee;padding: 20px">
+          <div style="float: left;width: 28%">
+            <div style="margin: 0 auto;width: 100%;text-align: left;border-right: 1px solid gray">
+              <p>姓名：{{form.name}}</p>
+              <p>联系电话：{{form.phone}}</p>
+              <p>公司名称：{{form.company}}</p>
+              <p>联系地址：{{form.address}}</p>
+              <p>行业：{{form.hangye}}</p>
+              <p>规模：{{form.size}}</p>
+              <p>主要产品：{{form.product}}</p>
+              <p>邮箱：{{form.email}}</p>
+              <p>网址：{{form.url}}</p>
+            </div>
           </div>
-          <div style="float: right;width: 55%;padding-left: 2%">
-            <p>营销名称</p>
+          <div style="float: left;width: 55%;padding-left: 2%;">
+            <p>{{form.time1}}</p>
             <el-tag v-for="item in tagss" :key="item.id">
               {{item.tag}}
             </el-tag>
             <p>其他详细描述文字</p>
-            <!-- <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="textarea1" >
-            </el-input>
-            <el-button class="dialog-footer" @click='ok'>添加联系记录</el-button> -->
             <p>联系记录</p>
-            <p>------------------------------------------------------------------</p>
+            <p>-----------------------------------------------------------------</p>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -72,7 +69,8 @@
         form: {
           name: '',
           time: '',
-          phone: ''
+          phone: '',
+          time1: '2018-06-06 18:24:02'
         },
         gridData: [{
             date: '2016-05-02',

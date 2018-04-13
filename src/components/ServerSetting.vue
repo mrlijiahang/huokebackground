@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <el-table :data="tableServer" border style="width: 100%">
       <el-table-column type="index" label="顺序" width='50'>
       </el-table-column>
@@ -34,6 +32,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-button>保存</el-button>
     <!-- 弹出层 -->
     <el-dialog title="编辑模式" :visible.sync="dialogVisible " width="80%" close-on-press-escape>
       <div class="clearfix">

@@ -22,22 +22,22 @@
       </el-table>
       <!-- 弹出层 -->
       <el-dialog title="详情信息" :visible.sync="dialogFormVisible">
-        <div class="clearfix">
-          <div style="float: left;width: 40%">
-            <el-form :model="form">
-              <el-form-item label="姓名">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-              <el-form-item label="电话">
-                <el-input v-model="form.phone"></el-input>
-              </el-form-item>
-              <el-form-item label="时间">
-                <el-input v-model="form.time"></el-input>
-              </el-form-item>
-            </el-form>
+        <div class="clearfix contain" >
+          <div style="float: left;width: 28%">
+            <div style="margin: 0 auto;width: 100%;text-align: left;border-right: 1px solid gray">
+              <p>姓名：{{form.name}}</p>
+              <p>联系电话：{{form.phone}}</p>
+              <p>公司名称：{{form.company}}</p>
+              <p>联系地址：{{form.address}}</p>
+              <p>行业：{{form.hangye}}</p>
+              <p>规模：{{form.size}}</p>
+              <p>主要产品：{{form.product}}</p>
+              <p>邮箱：{{form.email}}</p>
+              <p>网址：{{form.url}}</p>
+            </div>
           </div>
-          <div style="float: right;width: 55%;padding-left: 2%">
-            <p>营销名称</p>
+          <div style="float: left;width: 55%;padding-left: 5%">
+            <p>{{form.time1}}</p>
             <el-tag v-for="item in tagss" :key="item.id">
               {{item.tag}}
             </el-tag>
@@ -46,7 +46,7 @@
             </el-input>
             <el-button class="dialog-footer" @click='ok'>添加联系记录</el-button>
             <p>联系记录</p>
-            <p>------------------------------------------------------------------</p>
+            <p>---------------------------------------------------------------</p>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -72,13 +72,15 @@
         form: {
           name: '',
           time: '',
-          phone: ''
+          phone: '',
+          time1: ''
         },
         gridData: [{
             date: '2016-05-02',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
             textarea: '',
+            time1: '2018-1-1 10"12:56',
             tags: [{
                 tag: '1'
               },
@@ -92,6 +94,7 @@
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
             textarea: 'www',
+            time1: '2018-1-1 10"12:56',
             tags: [{
                 tag: '1'
               },
@@ -121,7 +124,8 @@
             phone: '166666666',
             time: '2018-55',
             contact: 'true',
-            xiangqing: ''
+            xiangqing: '',
+             time1: '2018-1-1 10"12:56',
           },
           {
             id: '2',
@@ -129,7 +133,8 @@
             phone: '46546456465',
             time: '2018-5-66',
             contact: '是 true',
-            xiangqing: ''
+            xiangqing: '',
+             time1: '2018-1-1 10"12:88',
           }
         ]
       }
@@ -141,9 +146,10 @@
         this.form.name = row.name
         this.form.time = row.time
         this.form.phone = row.phone
+        this.form.time1 =row.time1
+        console.log(row)
         this.tagss = this.gridData[row.id - 1].tags
-        // this.gridData[row.id - 1].textarea = this.textarea
-        console.log(this.gridData[row.id - 1].textarea)
+        // console.log(this.gridData[row.id - 1].textarea)
       },
       ok() {
         this.gridData[this.rownow.id - 1].textarea = this.textarea1
@@ -164,6 +170,11 @@
 
   .clearfix {
     zoom: 1;
+  }
+  .contain{
+    padding: 20px;
+     border: 2px solid #eee
+
   }
 
 </style>

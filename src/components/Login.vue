@@ -34,7 +34,6 @@ export default {
           this.$router.push({path:'/1/customer'})
       }else {
         alert('账号密码不对')
- 
       }
     }
   }
