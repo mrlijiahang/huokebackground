@@ -44,6 +44,13 @@
             <p>其他详细描述文字</p>
             <p>联系记录</p>
             <p>-----------------------------------------------------------------</p>
+            <ul>
+              <li v-for='item in items' :key="item.id">
+                {{item.mes}}
+              </li>
+            </ul>
+
+            <!-- <span>{{form.mes}}</spap> <span>{{form.time1}}</span> -->
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -60,6 +67,7 @@
   </div>
 </template>
 <script>
+  /* eslint-disable */
   export default {
     data() {
       return {
@@ -70,8 +78,17 @@
           name: '',
           time: '',
           phone: '',
-          time1: '2018-06-06 18:24:02'
+          time1: '2018-06-06 18:24:02',
+          mes: '11'
+
         },
+        items: [{
+            mes: 'Foo'
+          },
+          {
+            mes: 'Bar'
+          }
+        ],
         gridData: [{
             date: '2016-05-02',
             name: '王小虎',
