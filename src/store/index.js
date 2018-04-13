@@ -9,16 +9,21 @@ const state = {
   pwd: '1'
 }
 const mutations = {
-  add(state) {
-    state.count += 1
+  add(state, payload) {
+    state.count += payload.n
     // console.log(this)
     // console.log(this.state)
     // console.log(this.Store)
     // console.log(this.state.name)
   },
-  reduce(state) {
-    state.count -= 1
+  reduce(state, payload) {
+    state.count -= payload.n
+  }
+}
+const actions = {
+  add(context) {
+    context.commit('add')
   }
 }
 
-export default new Vuex.Store({ state, mutations })
+export default new Vuex.Store({ state, mutations, actions })

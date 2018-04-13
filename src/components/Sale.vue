@@ -146,7 +146,7 @@
         this.form.name = row.name
         this.form.time = row.time
         this.form.phone = row.phone
-        this.form.time1 =row.time1
+        this.form.time1 = row.time1
         console.log(row)
         this.tagss = this.gridData[row.id - 1].tags
         // console.log(this.gridData[row.id - 1].textarea)

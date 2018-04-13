@@ -46,11 +46,10 @@
             <p>-----------------------------------------------------------------</p>
             <ul>
               <li v-for='item in items' :key="item.id">
-                {{item.mes}}
+                <div style="float: left;">{{item.mes}}</div>
+                <div style="float: right;">{{item.tite}}</div>
               </li>
             </ul>
-
-            <!-- <span>{{form.mes}}</spap> <span>{{form.time1}}</span> -->
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -83,10 +82,12 @@
 
         },
         items: [{
-            mes: 'Foo'
+            mes: 'Foo',
+            tite: 'qwer'
           },
           {
-            mes: 'Bar'
+            mes: 'Bar',
+            tite: 'qwer'
           }
         ],
         gridData: [{
@@ -107,6 +108,7 @@
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
             textarea: 'www',
+            tagss: {},
             tags: [{
                 tag: '1'
               },
@@ -129,7 +131,7 @@
             address: '上海市普陀区金沙江路 1518 弄'
           }
         ],
-        tagss: {},
+        
         tableData: [{
             id: '1',
             name: '王小虎1',
@@ -158,7 +160,10 @@
         this.form.phone = row.phone
         this.tagss = this.gridData[row.id - 1].tags
         // this.gridData[row.id - 1].textarea = this.textarea
-        console.log(this.gridData[row.id - 1].textarea)
+        // console.log(this.gridData[row.id - 1].textarea)
+        this.$set(this.form , 'ljh' ,666)
+        console.log(this)
+        // console.log(this.$refs)
       },
       ok() {
         this.gridData[this.rownow.id - 1].textarea = this.textarea1
