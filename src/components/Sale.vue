@@ -46,7 +46,7 @@
             </el-input>
             <el-button class="dialog-footer" @click='ok'>添加联系记录</el-button>
             <p>联系记录</p>
-            <p>---------------------------------------------------------------</p>
+            <div style="border:1px dotted  black;width:100%"></div>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">

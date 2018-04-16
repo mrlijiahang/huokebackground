@@ -43,7 +43,7 @@
             </el-tag>
             <p>其他详细描述文字</p>
             <p>联系记录</p>
-            <p>-----------------------------------------------------------------</p>
+            <div style="border:1px dotted  black;width:100%"></div>
             <ul>
               <li v-for='item in items' :key="item.id">
                 <div style="float: left;">{{item.mes}}</div>
