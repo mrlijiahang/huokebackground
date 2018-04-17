@@ -1,7 +1,7 @@
 <template>
   <div class="bg clearfix">
     <div>
-      <el-table :data="tableData" border style="width: 100%">
+      <el-table stripe :data="tableData" border style="width: 100%">
         <el-table-column prop="id" label="ID" width="180">
         </el-table-column>
         <el-table-column prop="name" label="用户名" width="180">
@@ -109,7 +109,7 @@
 <style scoped>
   .bg {
     width: 100%;
-    border: 2px solid gray;
+    /* border: 2px solid gray; */
     margin: 0 auto;
     box-sizing: border-box;
   }

@@ -6,9 +6,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
 import store from './store'
+import axios from 'axios'
+Vue.prototype.$axios = axios
 // import Vuex from 'vuex'
 // Vue.use(Vuex)
-
+axios.defaults.headers.post['Content-Type'] =
+  'application/x-www-form-urlencoded'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 /* eslint-disable no-new */

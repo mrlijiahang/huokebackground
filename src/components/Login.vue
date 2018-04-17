@@ -1,23 +1,26 @@
 <template>
-  <div>
-    <h1>获客小程序后台系统</h1>
-    <div class="contain">
-      <el-form :model="form" status-icon @keyup.enter.native="show" :rules="rule1" ref="form">
-        <el-form-item prop='name'>
-          <el-input v-model="form.name" placeholder="请输入账号"></el-input>
-        </el-form-item>
-        <el-form-item prop='pass'>
-          <el-input v-model="form.pass" placeholder="请输入密码" type="password"></el-input>
-        </el-form-item>
-        <el-button class="btn" @click="submit">登录</el-button>
-      </el-form>
+  <div v-bind:class="{ active: isActive }">
+    <div style="padding-top: 18%">
+      <h1 style="color: white">获客小程序后台系统</h1>
+      <div class="contain">
+        <el-form :model="form" status-icon @keyup.enter.native="show" :rules="rule1" ref="form">
+          <el-form-item prop='name'>
+            <el-input v-model="form.name" placeholder="请输入账号"></el-input>
+          </el-form-item>
+          <el-form-item prop='pass'>
+            <el-input v-model="form.pass" placeholder="请输入密码" type="password"></el-input>
+          </el-form-item>
+          <el-button class="btn" @click="submit">登录</el-button>
+        </el-form>
+      </div>
     </div>
+
   </div>
 </template>
 <script>
   /* eslint-disable */
   import store from '../store/index.js'
-
+  import {adminlogin} from '../api/login'
   export default {
     data() {
       var validateName = (rule, value, callback) => {
@@ -36,6 +39,7 @@
       };
 
       return {
+        isActive: true,
         form: {
           name: '',
           pass: ''
@@ -54,19 +58,33 @@
     },
     methods: {
       submit() {
-        if (this.form.name === this.$store.state.name && this.form.pass === this.$store.state.pwd) {
-          this.$router.push({
-            path: '/1/customer'
-          })
-        } else {}
+        let msg = {
+          username: this.form.name,
+          password: this.form.pass
+        }
+        adminlogin(msg).then(res => {
+          // if (res.data.code === 2000) {
+          //   this.$router.push({
+          //     path: '/1/customer'
+          //   })
+          // }
+          console.log(res.data)
+        })
+
+        // if (this.form.name === this.$store.state.name && this.form.pass === this.$store.state.pwd) {
+        //   this.$router.push({
+        //     path: '/1/customer'
+        //   })
+        // } else {}
       },
+
       show() {
         if (this.form.name === this.$store.state.name && this.form.pass === this.$store.state.pwd) {
           this.$router.push({
             path: '/1/customer'
           })
         } else {
-          
+
         }
       }
     },
@@ -89,6 +107,14 @@
     background-color: #409eff;
     color: white;
     font-size: 16px;
+  }
+
+  .active {
+    background-image: url('/static/images/time1.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
   }
 
 </style>
