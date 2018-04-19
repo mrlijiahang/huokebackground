@@ -1,38 +1,27 @@
 <template>
   <div>
-    <el-table :data="tableServer" border style="width: 100%">
-      <el-table-column type="index" label="顺序" width='50'>
-      </el-table-column>
-      <el-table-column label="ID" prop='id' width='70'>
-      </el-table-column>
-      <el-table-column label="速客调研" prop='second' width='100'>
-      </el-table-column>
-      <el-table-column type="selection" width="55" label='11'>
-      </el-table-column>
-      <el-table-column label="日期" width="180">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="姓名" width="180">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="message">修改</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-button>保存</el-button>
+    <div v-for="(item,index) in items" :key="item.index">
+      <el-table :data="tableDatas[index]" border style="width: 100%" :key='index'>
+        <el-table-column width="55" label="选择">
+          <template slot-scope="scope">
+            <el-checkbox @change="rowClick(scope.row)"></el-checkbox>
+          </template>
+        </el-table-column>
+        <el-table-column :label=items[index].name prop="name" width="180">
+        </el-table-column>
+        <el-table-column label='Cid' prop="cid" width="180">
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="message">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div style="margin: 0 auto">
+      <el-button type="primary" round @click="push">提交</el-button>
+    </div>
+    <!-- <el-button>保存</el-button> -->
     <!-- 弹出层 -->
     <el-dialog title="编辑模式" :visible.sync="dialogVisible " width="80%" close-on-press-escape>
       <div class="clearfix">
@@ -73,7 +62,8 @@
           <el-form>
             <el-form-item label="">
               <div class="edit_container">
-                <quill-editor style="height: 450px" v-model="infoForm.a_content" ref="myQuillEditor" class="editer" :options="infoForm.editorOption" @ready="onEditorReady($event)">
+                <quill-editor style="height: 450px" v-model="infoForm.a_content" ref="myQuillEditor" class="editer" :options="infoForm.editorOption"
+                  @ready="onEditorReady($event)">
                 </quill-editor>
               </div>
             </el-form-item>
@@ -83,15 +73,18 @@
           </el-form>
         </div>
       </div>
-
-
     </el-dialog>
   </div>
 </template>
 
 <script>
   /* eslint-disable */
-  import {quillEditor} from 'vue-quill-editor' //调用编辑器
+  import {
+    getmessage, changemessage
+  } from '../api/login'
+  import {
+    quillEditor
+  } from 'vue-quill-editor' //调用编辑器
   import 'quill/dist/quill.core.css'
   import 'quill/dist/quill.snow.css'
   import 'quill/dist/quill.bubble.css'
@@ -104,6 +97,7 @@
           a_content: '',
           editorOption: {}
         },
+
         rules: {
           a_title: [{
             required: true,
@@ -117,6 +111,8 @@
           }]
         },
         dialogVisible: false,
+        tb: [],
+        selectTb: [],
         defaultMsg: '请输入文字',
         form: {
           name: '',
@@ -126,36 +122,33 @@
           initialFrameWidth: null,
           initialFrameHeight: 350
         },
-        tableServer: [{
-            id: 'one',
-            second: '消费者洞察',
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          },
-          {
-            id: 'two',
-            second: '竞争分析',
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          },
-          {
-            id: 'three',
-            second: '行业报告',
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          },
-          {
-            id: 'four',
-            date: '2016-05-03',
-            second: '专项报告',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }
-        ]
+        tableDatas: [],
+        items: []
       }
+    },
+    created() {
+      getmessage().then(res => {
+        console.log(res)
+        let arr = []
+        let headArr = res.data.data.filter(item => {
+          return parseInt(item.pid) === 0
+        })
+        for (let i = 1; i < 11; i++) {
+          let innerArr = []
+          innerArr.push(headArr[i - 1])
+          let tmpArr = res.data.data.filter(item => {
+            return parseInt(item.pid) === i
+          })
+          innerArr.push(tmpArr)
+          arr.push(innerArr)
+        }
+        for (let j = 0; j < 10; j++) {
+          this.items.push({
+            name: arr[j][0].name
+          })
+          this.tableDatas.push(arr[j][1])
+        }
+      })
     },
     methods: {
       handleEdit(index, row) {
@@ -180,17 +173,43 @@
         // 组件强制渲染非人类操作
       },
       onEditorReady(editor) {},
+
+      rowClick(item) {
+        let index = this.selectTb.indexOf(item)
+        if (index === -1) {
+          item.isSelect = true
+          this.selectTb.push(item)
+        } else {
+          this.selectTb.splice(index, 1)
+        }
+        
+        for (var i=0; i<this.selectTb.length;i++){
+          console.log(this.selectTb[i].cid)
+        }
+        
+        
+      },
+      push() {
+        // let params = new URLSearchParams()
+        // params.cid = 1
+        // params.auid = 1
+        let msg={
+          cid : 1,
+          auid : 1
+        }
+        changemessage(msg).then( res => {
+          console.log(res)
+        })
+     
+      },
       onSubmit() {
-        console.log(this.infoForm.a_content)
+        console.log(111)
       }
     },
     computed: {
       editor() {
         return this.$refs.myQuillEditor.quill
       }
-    },
-    mounted() {
-      //初始化
     },
 
     components: {

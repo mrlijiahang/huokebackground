@@ -63,29 +63,30 @@
           password: this.form.pass
         }
         adminlogin(msg).then(res => {
-          // if (res.data.code === 2000) {
-          //   this.$router.push({
-          //     path: '/1/customer'
-          //   })
-          // }
+          if (res.data.code === 1000) {
+            this.$router.push({
+              path: '/1/customer'
+            })
+          }
           console.log(res.data)
         })
 
-        // if (this.form.name === this.$store.state.name && this.form.pass === this.$store.state.pwd) {
-        //   this.$router.push({
-        //     path: '/1/customer'
-        //   })
-        // } else {}
       },
 
       show() {
-        if (this.form.name === this.$store.state.name && this.form.pass === this.$store.state.pwd) {
-          this.$router.push({
-            path: '/1/customer'
-          })
-        } else {
-
+          let msg = {
+          username: this.form.name,
+          password: this.form.pass
         }
+        adminlogin(msg).then(res => {
+          if (res.data.code === 1000) {
+            this.$router.push({
+              path: '/1/customer'
+            })
+          }
+          console.log(res.data)
+        })
+
       }
     },
 

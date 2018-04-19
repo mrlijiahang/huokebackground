@@ -18,46 +18,44 @@
   </div>
 </template>
 <script>
-  /* eslint-disable */
-  export default {
-    data() {
-      return {
+/* eslint-disable */
+import { adminlogout } from '../api/login'
+export default {
+  data() {
+    return {}
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      if (key === '2') {
+        this.$router.push('/1/customer')
+      } else if (key === '3') {
+        this.$router.push('/1/sale')
+      } else if (key === '4') {
+        this.$router.push('/1/call')
+      } else if (key === '5') {
+        this.$router.push('/1/servicesetting')
+      } else if (key === '6') {
+        this.$router.push('/1/formsetting')
       }
     },
-    methods: {
-      handleSelect(key, keyPath) {
-        if (key === '2') {
-          this.$router.push('/1/customer')
-        } else if (key === '3') {
-          this.$router.push('/1/sale')
-        } else if (key === '4') {
-          this.$router.push('/1/call')
-        } else if (key === '5') {
-          this.$router.push('/1/servicesetting')
-        } else if (key === '6') {
-          this.$router.push('/1/formsetting')
+    logout() {
+      adminlogout().then(res => {
+        if (res.data.code === 1000) {
+          this.$router.push({
+            path: '/2'
+          })
         }
-      },
-      logout() {
-        this.$axios.post('http://huoke.chinabyte.net/index.php/admin/logout', {
-        }).then(res => {
-          // if(res.data.code == 1000){
-          //   console.log(11111111111111111111111111111)
-          // }
-          console.log(res)
-        })
-      }
-    },
-    created() {
-      // this.$route.path='/1/customer'
-      // console.log(this.$route)
-      // console.log(this.$route.path)
-      // this.$route.path = "/1/customer"
+      })
     }
+  },
+  created() {
+    // this.$route.path='/1/customer'
+    // console.log(this.$route)
+    // console.log(this.$route.path)
+    // this.$route.path = "/1/customer"
   }
-
+}
 </script>
 <style scoped>
-
 
 </style>

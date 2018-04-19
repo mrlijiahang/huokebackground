@@ -7,3 +7,25 @@ export function adminlogin(msg) {
     data: msg
   })
 }
+export function adminlogout(msg) {
+  return fetch({
+    url: 'admin/logout',
+    method: 'post',
+    data: msg
+  })
+}
+export function getmessage(msg) {
+  return fetch({
+    url: 'category/category_list',
+    method: 'post',
+    data: msg
+  })
+}
+
+export function changemessage(msg) {
+  return fetch({
+    url: 'category/update_category',
+    method: 'post',
+    data: msg
+  })
+}

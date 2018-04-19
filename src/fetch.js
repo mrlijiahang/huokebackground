@@ -12,4 +12,10 @@ const service = axios.create({
     }
   ]
 })
+// service.interceptors.request.use(function(req) {
+//   console.log(1111)
+//   console.log(req.data)
+
+//   return req
+// })
 export default service
