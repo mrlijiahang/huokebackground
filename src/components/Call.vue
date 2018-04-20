@@ -72,6 +72,7 @@
       return {
         dialogFormVisible: false,
         textarea1: '',
+         tagss:[],
         rownow: {},
         form: {
           name: '',
@@ -108,7 +109,7 @@
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
             textarea: 'www',
-            tagss: {},
+           
             tags: [{
                 tag: '1'
               },

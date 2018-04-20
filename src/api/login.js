@@ -29,3 +29,10 @@ export function changemessage(msg) {
     data: msg
   })
 }
+export function getUserlistmsg(msg) {
+  return fetch({
+    url: 'user/user_list',
+    method: 'post',
+    data: msg
+  })
+}

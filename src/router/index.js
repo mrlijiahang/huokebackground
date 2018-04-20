@@ -14,8 +14,8 @@ export default new Router({
   // mode: 'history',
   routes: [
     {
-      path: '/'
-      // redirect: '/2'
+      path: '/',
+      redirect: '/2'
     },
     {
       path: '/3',
