@@ -2,12 +2,12 @@
   <div class="containeer clearfix ">
     <div>
       <!-- table表格 -->
-      <el-table :data="tableData" border style="width: 100%;cursor: pointer;">
-        <el-table-column prop="id" label="ID" width="180">
+      <el-table :data="tb" border style="width: 100%;cursor: pointer;">
+        <el-table-column prop="uid" label="CID" width="180">
         </el-table-column>
-        <el-table-column prop="name" label="用户名" width="180">
+        <el-table-column prop="nickname" label="用户名" width="180">
         </el-table-column>
-        <el-table-column prop="phone" label="电话">
+        <el-table-column prop="telephone" label="电话">
         </el-table-column>
         <el-table-column prop="time" label="下单时间">
         </el-table-column>
@@ -63,6 +63,9 @@
   </div>
 </template>
 <script>
+  import {
+    getUserlistmsg
+  } from '../api/login'
   export default {
     data() {
       return {
@@ -118,26 +121,22 @@
           }
         ],
         tagss: {},
-        tableData: [{
-            id: '1',
-            name: '王小虎1',
-            phone: '166666666',
-            time: '2018-55',
-            contact: 'true',
-            xiangqing: '',
-             time1: '2018-1-1 10"12:56',
-          },
-          {
-            id: '2',
-            name: '王小虎',
-            phone: '46546456465',
-            time: '2018-5-66',
-            contact: '是 true',
-            xiangqing: '',
-             time1: '2018-1-1 10"12:88',
-          }
-        ]
+        tb:[]
+
       }
+    },
+    created(){
+      let msg ={
+        auid: 1,
+        // num: 1,
+        // page:1
+      }
+      getUserlistmsg(msg).then( res=>{
+        console.log(res.data.data.users)
+        this.tb =res.data.data.users
+        console.log(this.tb)
+      } )
+
     },
     methods: {
       message(row) {
@@ -149,7 +148,6 @@
         this.form.time1 = row.time1
         console.log(row)
         this.tagss = this.gridData[row.id - 1].tags
-        // console.log(this.gridData[row.id - 1].textarea)
       },
       ok() {
         this.gridData[this.rownow.id - 1].textarea = this.textarea1

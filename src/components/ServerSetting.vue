@@ -4,7 +4,7 @@
       <el-table :data="tableDatas[index]" border style="width: 100%" :key='index'>
         <el-table-column width="55" label="选择">
           <template slot-scope="scope">
-            <el-checkbox @change="rowClick(scope.row)"></el-checkbox>
+            <el-checkbox @change="rowClick(scope.row)" v-bind:checked='Boolean(Number(scope.row.is_show))'></el-checkbox>
           </template>
         </el-table-column>
         <el-table-column :label=items[index].name prop="name" width="180">
@@ -13,14 +13,14 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="message">修改</el-button>
+            <el-button size="mini" @click="message(scope.row)">修改</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <div style="margin: 0 auto">
+    <!-- <div style="margin: 0 auto">
       <el-button type="primary" round @click="push">提交</el-button>
-    </div>
+    </div> -->
     <!-- <el-button>保存</el-button> -->
     <!-- 弹出层 -->
     <el-dialog title="编辑模式" :visible.sync="dialogVisible " width="80%" close-on-press-escape>
@@ -33,7 +33,7 @@
             </el-form-item>
           </el-form>
           <p>图标</p>
-          <el-upload list-type="picture" multiple drag action="https://jsonplaceholder.typicode.com/posts/" class="upload-demo">
+          <el-upload list-type="picture" action='http://huoke.chinabyte.net/index.php/generic/upload' :on-success="upIcon" drag class="upload-demo">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
@@ -41,7 +41,7 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
           <p>导图</p>
-          <el-upload list-type="picture" multiple drag action="https://jsonplaceholder.typicode.com/posts/" class="upload-demo">
+          <el-upload list-type="picture" :on-success="updaotu" drag action='http://huoke.chinabyte.net/index.php/generic/upload' class="upload-demo">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
@@ -54,8 +54,8 @@
             <el-form-item>
               <p>父分类</p>
               <el-select v-model="form.region" placeholder="请选择父分类" style="width: 317px">
-                <el-option label="比特网" value=""></el-option>
-                <el-option label="天极网" value=""></el-option>
+                <el-option :label="fufenlei" value=""></el-option>
+                <!-- <el-option label="天极网" value=""></el-option> -->
               </el-select>
             </el-form-item>
           </el-form>
@@ -80,7 +80,8 @@
 <script>
   /* eslint-disable */
   import {
-    getmessage, changemessage
+    getmessage,
+    changemessage
   } from '../api/login'
   import {
     quillEditor
@@ -91,25 +92,25 @@
   export default {
     data() {
       return {
+        
+        fufenlei: '',
         infoForm: {
-          a_title: '',
-          a_source: '',
-          a_content: '',
+          // a_content:'',
           editorOption: {}
         },
 
-        rules: {
-          a_title: [{
-            required: true,
-            message: '请输入标题',
-            trigger: 'blur'
-          }],
-          a_content: [{
-            required: true,
-            message: '请输入详细内容',
-            trigger: 'blur'
-          }]
-        },
+        // rules: {
+        //   a_title: [{
+        //     required: true,
+        //     message: '请输入标题',
+        //     trigger: 'blur'
+        //   }],
+        //   a_content: [{
+        //     required: true,
+        //     message: '请输入详细内容',
+        //     trigger: 'blur'
+        //   }]
+        // },
         dialogVisible: false,
         tb: [],
         selectTb: [],
@@ -123,10 +124,15 @@
           initialFrameHeight: 350
         },
         tableDatas: [],
-        items: []
+        items: [],
+        ljh: {},
+        icon: '',
+        daotuimg: '',
+        desc: ''
       }
     },
     created() {
+
       getmessage().then(res => {
         console.log(res)
         let arr = []
@@ -136,7 +142,7 @@
         for (let i = 1; i < 11; i++) {
           let innerArr = []
           innerArr.push(headArr[i - 1])
-          let tmpArr = res.data.data.filter(item => {
+          let tmpArr = res.data.data.filter(item => {      
             return parseInt(item.pid) === i
           })
           innerArr.push(tmpArr)
@@ -146,11 +152,24 @@
           this.items.push({
             name: arr[j][0].name
           })
+          
+        
           this.tableDatas.push(arr[j][1])
+          
         }
       })
     },
     methods: {
+      upIcon(file) {
+        this.icon = file.data
+        console.log(this.icon);
+      },
+ 
+      updaotu(file) {
+        this.daotuimg = file.data
+        console.log(this.daotuimg)
+      },
+
       handleEdit(index, row) {
         console.log(index, row)
       },
@@ -166,44 +185,87 @@
         })
         console.log(content)
       },
-      message() {
+
+      message(row) {
         // alert(1)
+        this.fufenlei =''
         this.dialogVisible = true
-        // this.$forceUpdate()
-        // 组件强制渲染非人类操作
+        this.ljh = row
+        console.log(this.ljh)
+        console.log(row.pid)
+        getmessage({
+          'pid': '0'
+        }).then(res => {
+          console.log(res.data.data[row.pid - 1].name)
+          this.fufenlei = res.data.data[row.pid - 1].name
+        })
       },
       onEditorReady(editor) {},
 
-      rowClick(item) {
-        let index = this.selectTb.indexOf(item)
-        if (index === -1) {
-          item.isSelect = true
-          this.selectTb.push(item)
-        } else {
-          this.selectTb.splice(index, 1)
-        }
-        
-        for (var i=0; i<this.selectTb.length;i++){
-          console.log(this.selectTb[i].cid)
-        }
-        
-        
-      },
-      push() {
-        // let params = new URLSearchParams()
-        // params.cid = 1
-        // params.auid = 1
+      rowClick(row) {
+        console.log(row.is_show)
+        row.is_show =!Number(row.is_show)
+        console.log(row.is_show)
+       
         let msg={
-          cid : 1,
-          auid : 1
+          auid: 1,
+          cid :row.cid,
+          is_show: Number(row.is_show)
         }
-        changemessage(msg).then( res => {
+        changemessage(msg).then(res =>{
           console.log(res)
         })
-     
+    
+        // console.log(Number(row.is_show))
+        // console.log(row.checked)
+        // let index = this.selectTb.indexOf(item)
+        // if (index === -1) {
+        //   item.isSelect = true
+        //   this.selectTb.push(item)
+        // } else {
+        //   this.selectTb.splice(index, 1)
+        // }
+
+        // for (var i = 0; i < this.selectTb.length; i++) {
+        //   console.log(this.selectTb[i].cid)
+        // }
+        // console.log(item.is_show)
+        // Boolean(item.is_show) = !Boolean(item.is_show)
+        // console.log(Number(item.is_show))
+        // let msg ={
+        //   is_show : Number(item.is_show)
+        // }
+        // changemessage(msg).then(res =>{
+        //   console.log(res)
+        // })
+        
       },
+      // push() {
+      //   let params = new URLSearchParams()
+      //   params.cid = 1
+      //   params.auid = 1
+      //   let msg = {
+      //     cid: 1,
+      //     auid: 1
+      //   }
+      //   changemessage(msg).then(res => {
+      //     console.log(res)
+      //   })
+
+      // },
       onSubmit() {
-        console.log(111)
+        let msg = {
+          auid: 1,
+          cid: this.ljh.cid,
+          is_show: this.ljh.is_show,
+          name: this.form.name.toString(),
+          icon: this.daotuimg.toString(),
+          image: this.daotuimg.toString(),
+          desc: this.infoForm.a_content
+        }
+        changemessage(msg).then(res => {
+          console.log(res)
+        })
       }
     },
     computed: {
