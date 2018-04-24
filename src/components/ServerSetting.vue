@@ -205,7 +205,7 @@
       rowClick(row) {
         console.log(row.is_show)
         row.is_show =!Number(row.is_show)
-        console.log(row.is_show)
+        console.log(row.is_show) 
        
         let msg={
           auid: 1,
@@ -215,44 +215,7 @@
         changemessage(msg).then(res =>{
           console.log(res)
         })
-    
-        // console.log(Number(row.is_show))
-        // console.log(row.checked)
-        // let index = this.selectTb.indexOf(item)
-        // if (index === -1) {
-        //   item.isSelect = true
-        //   this.selectTb.push(item)
-        // } else {
-        //   this.selectTb.splice(index, 1)
-        // }
-
-        // for (var i = 0; i < this.selectTb.length; i++) {
-        //   console.log(this.selectTb[i].cid)
-        // }
-        // console.log(item.is_show)
-        // Boolean(item.is_show) = !Boolean(item.is_show)
-        // console.log(Number(item.is_show))
-        // let msg ={
-        //   is_show : Number(item.is_show)
-        // }
-        // changemessage(msg).then(res =>{
-        //   console.log(res)
-        // })
-        
       },
-      // push() {
-      //   let params = new URLSearchParams()
-      //   params.cid = 1
-      //   params.auid = 1
-      //   let msg = {
-      //     cid: 1,
-      //     auid: 1
-      //   }
-      //   changemessage(msg).then(res => {
-      //     console.log(res)
-      //   })
-
-      // },
       onSubmit() {
         let msg = {
           auid: 1,

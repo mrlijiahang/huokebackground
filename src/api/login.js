@@ -36,3 +36,11 @@ export function getUserlistmsg(msg) {
     data: msg
   })
 }
+
+export function calllist(msg) {
+  return fetch({
+    url: 'order/relation_list',
+    method: 'post',
+    data: msg
+  })
+}

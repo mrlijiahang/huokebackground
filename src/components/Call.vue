@@ -67,6 +67,7 @@
 </template>
 <script>
   /* eslint-disable */
+  import { calllist } from '../api/login'
   export default {
     data() {
       return {
@@ -151,6 +152,14 @@
           }
         ]
       }
+    },
+    created(){
+      // let msg ={
+      //   auid: 1,
+      //   oid: 
+
+
+      // }
     },
     methods: {
       message(row) {
