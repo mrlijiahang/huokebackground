@@ -92,7 +92,7 @@
   export default {
     data() {
       return {
-        
+
         fufenlei: '',
         infoForm: {
           // a_content:'',
@@ -132,39 +132,12 @@
       }
     },
     created() {
-
-      getmessage().then(res => {
-        console.log(res)
-        let arr = []
-        let headArr = res.data.data.filter(item => {
-          return parseInt(item.pid) === 0
-        })
-        for (let i = 1; i < 11; i++) {
-          let innerArr = []
-          innerArr.push(headArr[i - 1])
-          let tmpArr = res.data.data.filter(item => {      
-            return parseInt(item.pid) === i
-          })
-          innerArr.push(tmpArr)
-          arr.push(innerArr)
-        }
-        for (let j = 0; j < 10; j++) {
-          this.items.push({
-            name: arr[j][0].name
-          })
-          
-        
-          this.tableDatas.push(arr[j][1])
-          
-        }
-      })
+      this.xuanran()
     },
     methods: {
       upIcon(file) {
         this.icon = file.data
-        console.log(this.icon);
       },
- 
       updaotu(file) {
         this.daotuimg = file.data
         console.log(this.daotuimg)
@@ -185,10 +158,32 @@
         })
         console.log(content)
       },
-
+      xuanran() {
+        getmessage().then(res => {
+          console.log(res)
+          let arr = []
+          let headArr = res.data.data.filter(item => {
+            return parseInt(item.pid) === 0
+          })
+          for (let i = 1; i < 11; i++) {
+            let innerArr = []
+            innerArr.push(headArr[i - 1])
+            let tmpArr = res.data.data.filter(item => {
+              return parseInt(item.pid) === i
+            })
+            innerArr.push(tmpArr)
+            arr.push(innerArr)
+          }
+          for (let j = 0; j < 10; j++) {
+            this.items.push({
+              name: arr[j][0].name
+            })
+            this.tableDatas.push(arr[j][1])
+          }
+        })
+      },
       message(row) {
-        // alert(1)
-        this.fufenlei =''
+        this.fufenlei = ''
         this.dialogVisible = true
         this.ljh = row
         console.log(this.ljh)
@@ -201,18 +196,17 @@
         })
       },
       onEditorReady(editor) {},
-
       rowClick(row) {
         console.log(row.is_show)
-        row.is_show =!Number(row.is_show)
-        console.log(row.is_show) 
-       
-        let msg={
+        row.is_show = !Number(row.is_show)
+        console.log(row.is_show)
+
+        let msg = {
           auid: 1,
-          cid :row.cid,
+          cid: row.cid,
           is_show: Number(row.is_show)
         }
-        changemessage(msg).then(res =>{
+        changemessage(msg).then(res => {
           console.log(res)
         })
       },
@@ -227,7 +221,11 @@
           desc: this.infoForm.a_content
         }
         changemessage(msg).then(res => {
-          console.log(res)
+          this.dialogVisible = false
+          console.log(this)
+          this.xuanran()
+          // window.location.reload()
+          // console.log(this.created)
         })
       }
     },

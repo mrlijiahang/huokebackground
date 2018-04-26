@@ -6,7 +6,6 @@
       <el-menu-item index="/1/customer">
         客户信息
       </el-menu-item>
-      <el-menu-item index="/1/sale">销售机会</el-menu-item>
       <el-menu-item index="/1/call">外呼记录</el-menu-item>
       <el-menu-item index="/1/servicesetting">服务设置</el-menu-item>
       <div style="float: right;line-height: 55px;margin-right: 30px">
@@ -27,9 +26,7 @@ export default {
     handleSelect(key, keyPath) {
       if (key === '2') {
         this.$router.push('/1/customer')
-      } else if (key === '3') {
-        this.$router.push('/1/sale')
-      } else if (key === '4') {
+      }  else if (key === '4') {
         this.$router.push('/1/call')
       } else if (key === '5') {
         this.$router.push('/1/servicesetting')

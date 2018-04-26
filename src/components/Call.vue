@@ -46,25 +46,20 @@
             </div>
             <p>联系记录</p>
             <div style="border:1px dotted  black;width:100%"></div>
-
             <ul>
               <li v-for='item in relations' :key="item.id">
                 <div style="float: left;">{{item.desc}}</div>
                 <div style="float: right;">{{item.create_time}}</div>
               </li>
             </ul>
-            <el-pagination
-            layout="prev, pager, next,total"
-            :total="sum">
-          </el-pagination>
-
+            <el-pagination layout="prev, pager, next,total" :total="sum">
+            </el-pagination>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         </div>
       </el-dialog>
-
       <!-- 分页 -->
       <div style="margin: 0 auto;width: 50%;text-align: center">
         <el-pagination class="fenye" layout="prev, pager, next,total" :total="100" :page-size=15>
@@ -90,7 +85,7 @@
         TB1: [],
         relations: [],
         oid: '',
-        sum: 0 ,
+        sum: 0,
         form: {
           name: '',
           phone: '',
@@ -121,10 +116,17 @@
           desc: this.desc,
           oid: this.oid
         }
-        addRelation(msg).then(res => {})
-        // console.log(this)
-        // this.$forceUpdate()
-
+        addRelation(msg).then(res => {
+          this.desc = ''
+          let msg1 = {
+            auid: 1,
+            oid: this.oid
+          }
+          // 得到联系记录列表
+          getRelation(msg1).then(res => {
+            this.relations = res.data.data.relations
+          })
+        })
       },
       // 得到用户详细信息列表
       getMessage(row) {
