@@ -1,5 +1,5 @@
 import fetch from '../fetch'
-import { METHODS } from 'http'
+// import { methods } from 'http'
 /* eslint-disable */
 export function adminlogin(msg) {
   return fetch({
@@ -65,4 +65,28 @@ export function getRelation(msg) {
     method: 'post',
     data: msg
   })
+}
+// 转换时间
+export function transformDateWithTime(date) {
+  if (!date) {
+    return ''
+  }
+  if (date.length === 10) {
+    date = date + '000'
+  }
+  date = parseInt(date)
+  if (date === 0) {
+    return ''
+  } else {
+    let time = new Date(date)
+    let year = time.getFullYear()
+    let originMonth = time.getMonth() + 1
+    let month = originMonth < 10 ? '0' + originMonth : originMonth
+    let day = time.getDate() < 10 ? '0' + time.getDate() : time.getDate()
+    let hour = time.getHours() < 10 ? '0' + time.getHours() : time.getHours()
+    let second =
+      time.getSeconds() < 10 ? '0' + time.getSeconds() : time.getSeconds()
+    let newTime = year + '-' + month + '-' + day + '  ' + hour + ':' + second
+    return newTime
+  }
 }

@@ -45,14 +45,14 @@
               <el-button style="float: right;" @click="AddRelation">添加详细记录</el-button>
             </div>
             <p>联系记录</p>
-            <div style="border:1px dotted  black;width:100%"></div>
+            <div style="border:1px dotted  black;width:100%" class="clearfix"></div>
             <ul>
               <li v-for='item in relations' :key="item.id">
                 <div style="float: left;">{{item.desc}}</div>
                 <div style="float: right;">{{item.create_time}}</div>
               </li>
             </ul>
-            <el-pagination layout="prev, pager, next,total" :total="sum">
+            <el-pagination layout="prev, pager, next,total" :total="sum" @current-change='page'>
             </el-pagination>
           </div>
         </div>
@@ -61,20 +61,22 @@
         </div>
       </el-dialog>
       <!-- 分页 -->
-      <div style="margin: 0 auto;width: 50%;text-align: center">
+      <!-- <div style="margin: 0 auto;width: 50%;text-align: center">
         <el-pagination class="fenye" layout="prev, pager, next,total" :total="100" :page-size=15>
         </el-pagination>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script>
+  import Vue from 'vue'
   /* eslint-disable */
   import {
     calllist,
     orderlist,
     addRelation,
-    getRelation
+    getRelation,
+    transformDateWithTime
   } from '../api/login'
   export default {
     data() {
@@ -101,14 +103,28 @@
       }
     },
     created() {
-      let msg = {
-        auid: 1,
-      }
-      orderlist(msg).then(res => {
-        this.TB = res.data.data.orders
-      })
+      this.getOrderList()
     },
     methods: {
+      getOrderList() {
+        let msg = {
+          auid: 1,
+        }
+        orderlist(msg).then(res => {
+          this.TB = res.data.data.orders
+        })
+
+      },
+      page(index) {
+        let msg = {
+          auid: 1,
+          oid: this.oid,
+          num: 10,
+          page: index
+        }
+        // 得到联系记录列表
+        this.getRelationList(msg)
+      },
       // 添加联系记录
       AddRelation() {
         let msg = {
@@ -120,12 +136,24 @@
           this.desc = ''
           let msg1 = {
             auid: 1,
-            oid: this.oid
+            oid: this.oid,
+            num: 10,
           }
           // 得到联系记录列表
           getRelation(msg1).then(res => {
             this.relations = res.data.data.relations
+            this.sum = res.data.data.sum
           })
+        })
+      },
+      getRelationList(msg) {
+        // 得到联系记录列表
+        getRelation(msg).then(res => {
+          this.relations = res.data.data.relations
+          this.relations.map(item => {
+            item.create_time = transformDateWithTime(item.create_time)
+          })
+          this.sum = res.data.data.sum
         })
       },
       // 得到用户详细信息列表
@@ -140,23 +168,17 @@
         this.form.product = row.product
         this.form.email = row.email
         this.form.url = row.url
-        this.form.time1 = row.create_time
+        this.form.time1 = transformDateWithTime(row.create_time)
         this.TB1 = row.cname.split(',')
         this.input = ''
         this.oid = row.oid
         let msg = {
           auid: 1,
-          oid: this.oid
+          oid: this.oid,
+          num: 10,
+          page: 1
         }
-        // 得到联系记录列表
-        getRelation(msg).then(res => {
-          this.relations = res.data.data.relations
-          console.log(res.data.data.sum)
-          console.log(res.data.data)
-          // console.log(res.data.data.relations.length)
-          this.sum = res.data.data.sum
-          // console.log(res.data.data)
-        })
+        this.getRelationList(msg)
       },
     }
   }
@@ -173,6 +195,11 @@
 
   .clearfix {
     zoom: 1;
+  }
+
+  li {
+    /* list-style-type: none ; */
+    /* height: 12px; */
   }
 
 </style>
