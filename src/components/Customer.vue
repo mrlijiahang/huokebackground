@@ -4,7 +4,7 @@
       <el-table stripe :data="TB" border style="width: 100%">
         <el-table-column prop="uid" label="UID" width="180">
         </el-table-column>
-        <el-table-column prop="nickname" label="用户名" width="180">
+        <el-table-column prop="name" label="用户名" width="180">
         </el-table-column>
         <el-table-column prop="telephone" label="电话">
         </el-table-column>
@@ -22,7 +22,7 @@
             <el-input v-model="form.uid"></el-input>
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="form.nickname"></el-input>
+            <el-input v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="联系电话">
             <el-input v-model="form.telephone"></el-input>

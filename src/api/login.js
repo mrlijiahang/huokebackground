@@ -44,3 +44,10 @@ export function calllist(msg) {
     data: msg
   })
 }
+export function orderlist(msg) {
+  return fetch({
+    url: 'order/order_list',
+    method: 'post',
+    data: msg
+  })
+}

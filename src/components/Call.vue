@@ -2,21 +2,19 @@
   <div class="containeer clearfix ">
     <div>
       <!-- table表格 -->
-      <el-table :data="tableData" border style="width: 100%;cursor: pointer;">
-        <el-table-column prop="id" label="ID" width="180">
+      <el-table :data="TB" border style="width: 100%;cursor: pointer;">
+        <el-table-column prop="uid" label="ID" width="180">
         </el-table-column>
         <el-table-column prop="name" label="用户名" width="180">
         </el-table-column>
-        <el-table-column prop="phone" label="电话">
+        <el-table-column prop="telephone" label="电话">
         </el-table-column>
-        <el-table-column prop="time" label="下单时间">
-        </el-table-column>
-        <el-table-column prop="contact" label="是否联系">
+        <el-table-column prop="create_time" label="下单时间">
         </el-table-column>
         <!-- 详情按钮 -->
         <el-table-column prop="xiangqing" label="详情">
           <template slot-scope="scope">
-            <el-button @click="message(scope.row, tableData)">查看详情信息</el-button>
+            <el-button @click="getMessage(scope.row, TB)">查看详情信息</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -36,12 +34,15 @@
               <p>网址：{{form.url}}</p>
             </div>
           </div>
-          <div style="float: left;width: 55%;padding-left: 2%;">
+          <div class="clearfix" style="float: left;width: 55%;padding-left: 2%;">
             <p>{{form.time1}}</p>
-            <el-tag v-for="item in tagss" :key="item.id">
-              {{item.tag}}
+            <el-tag v-for="item in TB1" :key="item.id" style="margin-left: 10px">
+              {{item}}
             </el-tag>
             <p>其他详细描述文字</p>
+            <el-input :rows="4" placeholder="请输入内容"></el-input>
+            <div class="clearfix"><el-button style="float: right;">确定</el-button></div>
+            
             <p>联系记录</p>
             <div style="border:1px dotted  black;width:100%"></div>
             <ul>
@@ -67,21 +68,29 @@
 </template>
 <script>
   /* eslint-disable */
-  import { calllist } from '../api/login'
+  import {
+    calllist
+  } from '../api/login'
+  import {
+    orderlist
+  } from '../api/login'
   export default {
     data() {
       return {
         dialogFormVisible: false,
-        textarea1: '',
-         tagss:[],
-        rownow: {},
+        TB: [],
+        TB1: [],
         form: {
           name: '',
-          time: '',
           phone: '',
-          time1: '2018-06-06 18:24:02',
-          mes: '11'
-
+          company: '',
+          address: '',
+          industry: '',
+          scale: '',
+          product: '',
+          email: '',
+          url: '',
+          time1: ''
         },
         items: [{
             mes: 'Foo',
@@ -92,93 +101,31 @@
             tite: 'qwer'
           }
         ],
-        gridData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            textarea: '',
-            tags: [{
-                tag: '1'
-              },
-              {
-                tag: '2'
-              }
-            ]
-          },
-          {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            textarea: 'www',
-           
-            tags: [{
-                tag: '1'
-              },
-              {
-                tag: '2'
-              },
-              {
-                tag: '3'
-              }
-            ]
-          },
-          {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          },
-          {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }
-        ],
-        
-        tableData: [{
-            id: '1',
-            name: '王小虎1',
-            phone: '166666666',
-            time: '2018-55',
-            contact: 'true',
-            xiangqing: ''
-          },
-          {
-            id: '2',
-            name: '王小虎',
-            phone: '46546456465',
-            time: '2018-5-66',
-            contact: '是 true',
-            xiangqing: ''
-          }
-        ]
       }
     },
-    created(){
-      // let msg ={
-      //   auid: 1,
-      //   oid: 
-
-
-      // }
+    created() {
+      let msg = {
+        auid: 1,
+      }
+      orderlist(msg).then(res => {
+        this.TB = res.data.data.orders
+      })
     },
     methods: {
-      message(row) {
-        this.rownow = row
+      getMessage(row) {
         this.dialogFormVisible = true
         this.form.name = row.name
-        this.form.time = row.time
-        this.form.phone = row.phone
-        this.tagss = this.gridData[row.id - 1].tags
-        // this.gridData[row.id - 1].textarea = this.textarea
-        // console.log(this.gridData[row.id - 1].textarea)
-        this.$set(this.form , 'ljh' ,666)
-        console.log(this)
-        // console.log(this.$refs)
+        this.form.phone = row.telephone
+        this.form.company = row.company
+        this.form.address = row.address
+        this.form.industry = row.industry
+        this.form.scale = row.scale
+        this.form.product = row.product
+        this.form.email = row.email
+        this.form.url = row.url
+        this.form.time1 = row.create_time
+        this.TB1 = row.cname.split(',')
       },
-      ok() {
-        this.gridData[this.rownow.id - 1].textarea = this.textarea1
-        console.log(this.gridData[this.rownow.id - 1].textarea)
-      }
     }
   }
 
