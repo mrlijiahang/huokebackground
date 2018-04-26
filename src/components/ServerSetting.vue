@@ -92,25 +92,10 @@
   export default {
     data() {
       return {
-
         fufenlei: '',
         infoForm: {
-          // a_content:'',
           editorOption: {}
         },
-
-        // rules: {
-        //   a_title: [{
-        //     required: true,
-        //     message: '请输入标题',
-        //     trigger: 'blur'
-        //   }],
-        //   a_content: [{
-        //     required: true,
-        //     message: '请输入详细内容',
-        //     trigger: 'blur'
-        //   }]
-        // },
         dialogVisible: false,
         tb: [],
         selectTb: [],
@@ -142,7 +127,6 @@
         this.daotuimg = file.data
         console.log(this.daotuimg)
       },
-
       handleEdit(index, row) {
         console.log(index, row)
       },
@@ -162,6 +146,7 @@
         getmessage().then(res => {
           console.log(res)
           let arr = []
+          let tabArr = []
           let headArr = res.data.data.filter(item => {
             return parseInt(item.pid) === 0
           })
@@ -178,16 +163,15 @@
             this.items.push({
               name: arr[j][0].name
             })
-            this.tableDatas.push(arr[j][1])
+            tabArr.push(arr[j][1])
           }
+          this.tableDatas = tabArr
         })
       },
       message(row) {
         this.fufenlei = ''
         this.dialogVisible = true
         this.ljh = row
-        console.log(this.ljh)
-        console.log(row.pid)
         getmessage({
           'pid': '0'
         }).then(res => {
@@ -197,17 +181,13 @@
       },
       onEditorReady(editor) {},
       rowClick(row) {
-        console.log(row.is_show)
         row.is_show = !Number(row.is_show)
-        console.log(row.is_show)
-
         let msg = {
           auid: 1,
           cid: row.cid,
           is_show: Number(row.is_show)
         }
         changemessage(msg).then(res => {
-          console.log(res)
         })
       },
       onSubmit() {
@@ -222,10 +202,7 @@
         }
         changemessage(msg).then(res => {
           this.dialogVisible = false
-          console.log(this)
           this.xuanran()
-          // window.location.reload()
-          // console.log(this.created)
         })
       }
     },

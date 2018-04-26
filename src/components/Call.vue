@@ -151,9 +151,11 @@
         // 得到联系记录列表
         getRelation(msg).then(res => {
           this.relations = res.data.data.relations
-          // console.log(res.data.data.relations.length)
-          this.sum = res.data.data.relations.length
+          console.log(res.data.data.sum)
           console.log(res.data.data)
+          // console.log(res.data.data.relations.length)
+          this.sum = res.data.data.sum
+          // console.log(res.data.data)
         })
       },
     }
