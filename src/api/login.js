@@ -1,4 +1,5 @@
 import fetch from '../fetch'
+import { METHODS } from 'http'
 /* eslint-disable */
 export function adminlogin(msg) {
   return fetch({
@@ -47,6 +48,20 @@ export function calllist(msg) {
 export function orderlist(msg) {
   return fetch({
     url: 'order/order_list',
+    method: 'post',
+    data: msg
+  })
+}
+export function addRelation(msg) {
+  return fetch({
+    url: 'order/add_relation',
+    method: 'post',
+    data: msg
+  })
+}
+export function getRelation(msg) {
+  return fetch({
+    url: 'order/relation_list',
     method: 'post',
     data: msg
   })

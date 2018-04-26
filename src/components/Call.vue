@@ -40,17 +40,24 @@
               {{item}}
             </el-tag>
             <p>其他详细描述文字</p>
-            <el-input :rows="4" placeholder="请输入内容"></el-input>
-            <div class="clearfix"><el-button style="float: right;">确定</el-button></div>
-            
+            <el-input :rows="3" type='textarea' v-model='desc' placeholder="请输入内容"></el-input>
+            <div class="clearfix">
+              <el-button style="float: right;" @click="AddRelation">添加详细记录</el-button>
+            </div>
             <p>联系记录</p>
             <div style="border:1px dotted  black;width:100%"></div>
+
             <ul>
-              <li v-for='item in items' :key="item.id">
-                <div style="float: left;">{{item.mes}}</div>
-                <div style="float: right;">{{item.tite}}</div>
+              <li v-for='item in relations' :key="item.id">
+                <div style="float: left;">{{item.desc}}</div>
+                <div style="float: right;">{{item.create_time}}</div>
               </li>
             </ul>
+            <el-pagination
+            layout="prev, pager, next,total"
+            :total="sum">
+          </el-pagination>
+
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -69,17 +76,21 @@
 <script>
   /* eslint-disable */
   import {
-    calllist
-  } from '../api/login'
-  import {
-    orderlist
+    calllist,
+    orderlist,
+    addRelation,
+    getRelation
   } from '../api/login'
   export default {
     data() {
       return {
         dialogFormVisible: false,
+        desc: '',
         TB: [],
         TB1: [],
+        relations: [],
+        oid: '',
+        sum: 0 ,
         form: {
           name: '',
           phone: '',
@@ -92,15 +103,6 @@
           url: '',
           time1: ''
         },
-        items: [{
-            mes: 'Foo',
-            tite: 'qwer'
-          },
-          {
-            mes: 'Bar',
-            tite: 'qwer'
-          }
-        ],
       }
     },
     created() {
@@ -112,6 +114,19 @@
       })
     },
     methods: {
+      // 添加联系记录
+      AddRelation() {
+        let msg = {
+          auid: 1,
+          desc: this.desc,
+          oid: this.oid
+        }
+        addRelation(msg).then(res => {})
+        // console.log(this)
+        // this.$forceUpdate()
+
+      },
+      // 得到用户详细信息列表
       getMessage(row) {
         this.dialogFormVisible = true
         this.form.name = row.name
@@ -125,6 +140,19 @@
         this.form.url = row.url
         this.form.time1 = row.create_time
         this.TB1 = row.cname.split(',')
+        this.input = ''
+        this.oid = row.oid
+        let msg = {
+          auid: 1,
+          oid: this.oid
+        }
+        // 得到联系记录列表
+        getRelation(msg).then(res => {
+          this.relations = res.data.data.relations
+          // console.log(res.data.data.relations.length)
+          this.sum = res.data.data.relations.length
+          console.log(res.data.data)
+        })
       },
     }
   }

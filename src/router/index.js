@@ -5,7 +5,6 @@ import Call from '@/components/Call'
 import Customer from '@/components/Customer'
 import Sale from '@/components/Sale'
 import ServiceSetting from '@/components/ServerSetting'
-import FormSetting from '@/components/FormSetting'
 import Login from '@/components/Login'
 import Store from '@/components/Fuwenben'
 Vue.use(Router)
@@ -45,10 +44,6 @@ export default new Router({
         {
           path: 'servicesetting',
           component: ServiceSetting
-        },
-        {
-          path: 'formsetting',
-          component: FormSetting
         }
       ]
     }
