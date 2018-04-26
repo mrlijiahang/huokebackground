@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Call from '@/components/Call'
 import Customer from '@/components/Customer'
-import Sale from '@/components/Sale'
 import ServiceSetting from '@/components/ServerSetting'
 import Login from '@/components/Login'
 import Store from '@/components/Fuwenben'
@@ -33,10 +32,7 @@ export default new Router({
           path: 'customer',
           component: Customer
         },
-        {
-          path: 'sale',
-          component: Sale
-        },
+
         {
           path: 'call',
           component: Call
