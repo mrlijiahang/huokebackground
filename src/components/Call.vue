@@ -26,7 +26,7 @@
       <el-dialog title="详情信息" :visible.sync="dialogFormVisible">
         <div class="clearfix" style="border: 1px solid #eee;padding: 20px">
           <div style="float: left;width: 28%">
-            <div  class ='left'style="margin: 0 auto;width: 100%;text-align: left;border-right: 1px solid gray">
+            <div  class ='left' style="margin: 0 auto;width: 100%;text-align: left;border-right: 1px solid gray">
               <p>姓名：{{form.name}}</p>
               <p>联系电话：{{form.phone}}</p>
               <p>公司名称：{{form.company}}</p>

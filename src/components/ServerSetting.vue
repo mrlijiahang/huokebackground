@@ -116,18 +116,15 @@
     },
     methods: {
       upIcon(file) {
+        this.icon=''
         this.icon = file.data
       },
       updaotu(file) {
+        this.icon=''
         this.daotuimg = file.data
         console.log(this.daotuimg)
       },
-      handleEdit(index, row) {
-        console.log(index, row)
-      },
-      handleDelete(index, row) {
-        console.log(index, row)
-      },
+ 
       getUEContent() {
         let content = this.$refs.ue.getUEContent()
         this.$notify({
@@ -165,6 +162,9 @@
       },
       message(row) {
         this.fufenlei = ''
+        this.desc=''
+        this.icon=''
+        this.form.name=''
         this.dialogVisible = true
         this.ljh = row
         getmessage({
@@ -176,6 +176,8 @@
       },
       onEditorReady(editor) {},
       rowClick(row) {
+          this.form.name=''
+          this.desc=''
         row.is_show = !Number(row.is_show)
         let msg = {
           auid: 1,
@@ -183,6 +185,7 @@
           is_show: Number(row.is_show)
         }
         changemessage(msg).then(res => {
+        
         })
       },
       onSubmit() {
