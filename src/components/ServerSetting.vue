@@ -18,11 +18,6 @@
         </el-table-column>
       </el-table>
     </div>
-    <!-- <div style="margin: 0 auto">
-      <el-button type="primary" round @click="push">提交</el-button>
-    </div> -->
-    <!-- <el-button>保存</el-button> -->
-    <!-- 弹出层 -->
     <el-dialog title="编辑模式" :visible.sync="dialogVisible " width="80%" close-on-press-escape>
       <div class="clearfix">
         <div style="width: 49%;float: left;background-color: #eee;border-radius:30px;text-align: center;padding-bottom: 15px">
@@ -62,7 +57,7 @@
           <el-form>
             <el-form-item label="">
               <div class="edit_container">
-                <quill-editor style="height: 450px" v-model="infoForm.a_content" ref="myQuillEditor" class="editer" :options="infoForm.editorOption"
+                <quill-editor style="height: 415px" v-model="infoForm.a_content" ref="myQuillEditor" class="editer" :options="infoForm.editorOption"
                   @ready="onEditorReady($event)">
                 </quill-editor>
               </div>

@@ -1,15 +1,15 @@
 <template>
-  <div class="containeer clearfix ">
+  <div class="containeer clearfix bg">
     <div>
       <!-- table表格 -->
-      <el-table :data="TB" border style="width: 100%;cursor: pointer;">
+      <el-table :data="TB" border style="width: 100%;cursor: pointer;" :row-class-name="tableRowClassName">
         <el-table-column prop="uid" label="ID" width="180">
         </el-table-column>
         <el-table-column prop="name" label="用户名" width="180">
         </el-table-column>
         <el-table-column prop="telephone" label="电话">
         </el-table-column>
-        <el-table-column prop="create_time" label="下单时间">
+        <el-table-column prop="create_time" :formatter="fotTime"   label="下单时间">
         </el-table-column>
         <!-- 详情按钮 -->
         <el-table-column prop="xiangqing" label="详情">
@@ -18,11 +18,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <div style="text-align: center">
+          <el-pagination layout="prev, pager, next,total" :total="sum1" :page-size=5 @current-change='page1'>
+          </el-pagination>
+        </div>
       <!-- 弹出层 -->
       <el-dialog title="详情信息" :visible.sync="dialogFormVisible">
         <div class="clearfix" style="border: 1px solid #eee;padding: 20px">
           <div style="float: left;width: 28%">
-            <div style="margin: 0 auto;width: 100%;text-align: left;border-right: 1px solid gray">
+            <div  class ='left'style="margin: 0 auto;width: 100%;text-align: left;border-right: 1px solid gray">
               <p>姓名：{{form.name}}</p>
               <p>联系电话：{{form.phone}}</p>
               <p>公司名称：{{form.company}}</p>
@@ -36,7 +40,7 @@
           </div>
           <div class="clearfix" style="float: left;width: 55%;padding-left: 2%;">
             <p>{{form.time1}}</p>
-            <el-tag v-for="item in TB1" :key="item.id" style="margin-left: 10px">
+            <el-tag v-for="item in TB1" :key="item.id" style="margin-left: 10px;margin-top: 5px">
               {{item}}
             </el-tag>
             <p>其他详细描述文字</p>
@@ -47,24 +51,23 @@
             <p>联系记录</p>
             <div style="border:1px dotted  black;width:100%" class="clearfix"></div>
             <ul>
-              <li v-for='item in relations' :key="item.id">
+              <li v-for='item in relations' :key="item.id" class="clearfix">
                 <div style="float: left;">{{item.desc}}</div>
                 <div style="float: right;">{{item.create_time}}</div>
               </li>
             </ul>
-            <el-pagination layout="prev, pager, next,total" :total="sum" @current-change='page'>
-            </el-pagination>
+            <div style="position: absolute;bottom: 16%">
+                <el-pagination layout="prev, pager, next,total" :total="sum" :page-size=5 @current-change='page'>
+                  </el-pagination>
+            </div>
+ 
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         </div>
       </el-dialog>
-      <!-- 分页 -->
-      <!-- <div style="margin: 0 auto;width: 50%;text-align: center">
-        <el-pagination class="fenye" layout="prev, pager, next,total" :total="100" :page-size=15>
-        </el-pagination>
-      </div> -->
+
     </div>
   </div>
 </template>
@@ -81,6 +84,7 @@
   export default {
     data() {
       return {
+        callheader: 'callheader',
         dialogFormVisible: false,
         desc: '',
         TB: [],
@@ -88,6 +92,7 @@
         relations: [],
         oid: '',
         sum: 0,
+        sum1:0,
         form: {
           name: '',
           phone: '',
@@ -106,24 +111,51 @@
       this.getOrderList()
     },
     methods: {
+            tableRowClassName({
+        row,
+        rowIndex
+      }) {
+        if (rowIndex%2 === 0) {
+          return 'warning-row';
+        } else if (rowIndex%2 !== 0) {
+          return 'success-row';
+        }
+        return '';
+      },
       getOrderList() {
         let msg = {
           auid: 1,
+          num:5
         }
         orderlist(msg).then(res => {
           this.TB = res.data.data.orders
+          this.sum1=res.data.data.sum
         })
 
+      },
+      fotTime(row, column, cellValue){
+         return transformDateWithTime(cellValue)
       },
       page(index) {
         let msg = {
           auid: 1,
           oid: this.oid,
-          num: 10,
+          num: 5,
           page: index
         }
         // 得到联系记录列表
         this.getRelationList(msg)
+      },
+      page1(index){
+        
+        orderlist({
+          auid:1,
+          page:index,
+          num:5
+        }).then(res => {
+          this.TB = res.data.data.orders
+        })
+
       },
       // 添加联系记录
       AddRelation() {
@@ -137,11 +169,12 @@
           let msg1 = {
             auid: 1,
             oid: this.oid,
-            num: 10,
+            num: 5,
           }
           // 得到联系记录列表
           getRelation(msg1).then(res => {
             this.relations = res.data.data.relations
+           
             this.sum = res.data.data.sum
           })
         })
@@ -175,7 +208,7 @@
         let msg = {
           auid: 1,
           oid: this.oid,
-          num: 10,
+          num: 5,
           page: 1
         }
         this.getRelationList(msg)
@@ -191,15 +224,25 @@
     content: '';
     visibility: hidden;
     height: 0;
-  }
+
+     }
+     .bg{
+           width: 80%;
+    margin: 10% auto 
+     }
 
   .clearfix {
     zoom: 1;
   }
-
-  li {
-    /* list-style-type: none ; */
-    /* height: 12px; */
+  .left p{
+    margin-top: 10%
   }
 
+  li {
+    list-style: none ;
+  }
+
+
 </style>
+
+
