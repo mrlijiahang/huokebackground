@@ -244,5 +244,18 @@
 
 
 </style>
+<style>
+  .el-table .warning-row {
+    background: #f0f9eb;
+  }
+
+  .el-table .success-row {
+    background: white;
+  }
+  .el-table th{
+    background-color: #ecf8ff
+  }
+
+</style>
 
 

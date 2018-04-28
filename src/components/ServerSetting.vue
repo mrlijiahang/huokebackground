@@ -27,7 +27,7 @@
               <el-input v-model="form.name" :clearable='true' style="width: 333px"></el-input>
             </el-form-item>
          
-          <p>图标</p>
+          <p>导图</p>
           <el-form-item prop="icon">
             <el-input v-model="form.icon" :clearable='true' style="display:none"></el-input>
             <el-upload list-type="picture" ref='ricon' :show-file-list=true :limit=1 action='http://huoke.chinabyte.net/index.php/generic/upload' :on-success="upIcon" drag class="upload-demo">
@@ -38,7 +38,7 @@
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-form-item>
-          <p>导图</p>
+          <p>图标</p>
           <el-form-item prop="daotuimg">
              <el-input v-model="form.daotuimg" :clearable='true' style="display:none"></el-input>
           <el-upload list-type="picture" ref="rdaotuimg" :show-file-list=true :limit=1 :on-success="updaotu" drag action='http://huoke.chinabyte.net/index.php/generic/upload' class="upload-demo">
@@ -119,17 +119,18 @@
       }
     },
     created() {
-      this.xuanran()
+      this.renderDOM()
     },
     methods: {
       upIcon(file) {
-        this.icon=''
-        this.icon = file.data
+        this.form.icon=''
+        this.form.icon = file.data
+        console.log(this.form.icon)
       },
       updaotu(file) {
-        this.icon=''
-        this.daotuimg = file.data
-        console.log(this.daotuimg)
+        this.form.daotuimg=''
+        this.form.daotuimg = file.data
+        console.log(this.form.daotuimg)
       },
  
       getUEContent() {
@@ -141,14 +142,16 @@
         })
         console.log(content)
       },
-      xuanran() {
+      renderDOM() {
+        this.items = []
+        this.tableDatas  = []
         getmessage().then(res => {
-          console.log(res)
           let arr = []
           let tabArr = []
           let headArr = res.data.data.filter(item => {
             return parseInt(item.pid) === 0
           })
+       
           for (let i = 1; i < 11; i++) {
             let innerArr = []
             innerArr.push(headArr[i - 1])
@@ -158,6 +161,7 @@
             innerArr.push(tmpArr)
             arr.push(innerArr)
           }
+          
           for (let j = 0; j < 10; j++) {
             this.items.push({
               name: arr[j][0].name
@@ -165,6 +169,7 @@
             tabArr.push(arr[j][1])
           }
           this.tableDatas = tabArr
+             console.log(this.tableDatas)
         })
       },
       message(row) {
@@ -173,7 +178,7 @@
         this.desc=''
         this.form.icon=''
         this.form.daotuimg=''
-        this.form.name=''
+        this.form.name=row.name
         this.dialogVisible = true
         this.ljh = row
         getmessage({
@@ -199,7 +204,9 @@
         
         })
       },
-      onSubmit() {    
+      onSubmit() {   
+        console.log(this.form.icon.toString())
+        console.log(this.form.daotuimg.toString())
         let msg = {
           auid: 1,
           cid: this.ljh.cid,
@@ -211,9 +218,9 @@
         }
         changemessage(msg).then(res => {
           this.dialogVisible = false
-          this.xuanran()
-                  this.$refs.ricon.clearFiles()
-        this.$refs.rdaotuimg.clearFiles()
+          this.renderDOM()
+          this.$refs.ricon.clearFiles()
+          this.$refs.rdaotuimg.clearFiles()
         })
       }
     },
