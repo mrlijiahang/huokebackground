@@ -12,7 +12,9 @@
         <el-button @click="logout">退出</el-button>
       </div>
     </el-menu>
+    <!-- <transition :name="transitionName"> -->
     <router-view></router-view>
+    <!-- </transition> -->
   </div>
 </template>
 <script>
@@ -20,8 +22,25 @@
 import { adminlogout } from '../api/login'
 export default {
   data() {
-    return {}
+    return {
+      transitionName:'fade'
+    }
   },
+  // watch:{
+  //   '$route' (to,from) {
+  //     console.log(from.path)
+  //     console.log(this.$router)
+  //     if(to.path =='/1/customer'){
+  //       this.transitionName = 'fade'
+  //     }else if(from.path == '/1/call'){
+  //       this.transitionName ='fade'
+  //     }else if(from.path =='/1/servicesetting'){
+  //       this.transitionName='fade'
+  //     }
+
+  //   }
+
+  // },
   methods: {
     handleSelect(key, keyPath) {
       if (key === '2') {
@@ -51,5 +70,11 @@ export default {
 }
 </script>
 <style scoped>
+/* .fade-enter-active ,.fade-leave-active{
+  transition:   opacity  .3s;
+}
+.fade-enter, .fade-leave-to {
+  opacity:  0;
+} */
 
 </style>

@@ -26,23 +26,30 @@
               <p>名称</p>
               <el-input v-model="form.name" :clearable='true' style="width: 333px"></el-input>
             </el-form-item>
-          </el-form>
+         
           <p>图标</p>
-          <el-upload list-type="picture" action='http://huoke.chinabyte.net/index.php/generic/upload' :on-success="upIcon" drag class="upload-demo">
+          <el-form-item prop="icon">
+            <el-input v-model="form.icon" :clearable='true' style="display:none"></el-input>
+            <el-upload list-type="picture" ref='ricon' :show-file-list=true :limit=1 action='http://huoke.chinabyte.net/index.php/generic/upload' :on-success="upIcon" drag class="upload-demo">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
+        </el-form-item>
           <p>导图</p>
-          <el-upload list-type="picture" :on-success="updaotu" drag action='http://huoke.chinabyte.net/index.php/generic/upload' class="upload-demo">
+          <el-form-item prop="daotuimg">
+             <el-input v-model="form.daotuimg" :clearable='true' style="display:none"></el-input>
+          <el-upload list-type="picture" ref="rdaotuimg" :show-file-list=true :limit=1 :on-success="updaotu" drag action='http://huoke.chinabyte.net/index.php/generic/upload' class="upload-demo">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
+          </el-form-item>
+           </el-form>
         </div>
         <div style="width: 49%;float: right;background-color: #eee;border-radius: 30px;text-align: center">
           <el-form :model='form'>
@@ -97,7 +104,9 @@
         defaultMsg: '请输入文字',
         form: {
           name: '',
-          region: ''
+          region: '',
+          icon: '',
+          daotuimg: ''
         },
         config: {
           initialFrameWidth: null,
@@ -106,8 +115,6 @@
         tableDatas: [],
         items: [],
         ljh: {},
-        icon: '',
-        daotuimg: '',
         desc: ''
       }
     },
@@ -161,9 +168,11 @@
         })
       },
       message(row) {
+        this.infoForm.a_content=''
         this.fufenlei = ''
         this.desc=''
-        this.icon=''
+        this.form.icon=''
+        this.form.daotuimg=''
         this.form.name=''
         this.dialogVisible = true
         this.ljh = row
@@ -178,6 +187,8 @@
       rowClick(row) {
           this.form.name=''
           this.desc=''
+          this.form.icon=''
+          this.form.daotuimg=''
         row.is_show = !Number(row.is_show)
         let msg = {
           auid: 1,
@@ -188,19 +199,21 @@
         
         })
       },
-      onSubmit() {
+      onSubmit() {    
         let msg = {
           auid: 1,
           cid: this.ljh.cid,
           is_show: this.ljh.is_show,
           name: this.form.name.toString(),
-          icon: this.daotuimg.toString(),
-          image: this.daotuimg.toString(),
+          icon: this.form.icon.toString(),
+          image: this.form.daotuimg.toString(),
           desc: this.infoForm.a_content
         }
         changemessage(msg).then(res => {
           this.dialogVisible = false
           this.xuanran()
+                  this.$refs.ricon.clearFiles()
+        this.$refs.rdaotuimg.clearFiles()
         })
       }
     },

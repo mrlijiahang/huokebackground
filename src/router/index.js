@@ -30,16 +30,25 @@ export default new Router({
       children: [
         {
           path: 'customer',
-          component: Customer
+          component: Customer,
+          meta: {
+            title: 'customerlist'
+          }
         },
 
         {
           path: 'call',
-          component: Call
+          component: Call,
+          meta: {
+            title: 'calllist'
+          }
         },
         {
           path: 'servicesetting',
-          component: ServiceSetting
+          component: ServiceSetting,
+          meta: {
+            title: 'servicesettinglist'
+          }
         }
       ]
     }
