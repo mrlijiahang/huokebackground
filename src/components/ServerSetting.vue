@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div v-for="(item,index) in items" :key="item.index">
       <el-table :data="tableDatas[index]" border style="width: 100%" :key='index'>
         <el-table-column width="55" label="选择">
@@ -64,7 +64,7 @@
           <el-form>
             <el-form-item label="">
               <div class="edit_container">
-                <quill-editor style="height: 415px" v-model="infoForm.a_content" ref="myQuillEditor" class="editer" :options="infoForm.editorOption"
+                <quill-editor style="height: 507px" v-model="infoForm.a_content" ref="myQuillEditor" class="editer" :options="infoForm.editorOption"
                   @ready="onEditorReady($event)">
                 </quill-editor>
               </div>
@@ -244,6 +244,10 @@
     content: '';
     visibility: hidden;
     height: 0;
+  }
+  .container{
+    width: 80%;
+    margin:  10% auto;
   }
 
   .info {

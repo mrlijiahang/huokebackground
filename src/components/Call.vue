@@ -44,7 +44,7 @@
               {{item}}
             </el-tag>
             <p>其他详细描述文字</p>
-            <el-input :rows="3" type='textarea' v-model='desc' placeholder="请输入内容"></el-input>
+            <el-input :rows="3" type='textarea' v-model='desc' placeholder="请输入内容但不要超过18个字"></el-input>
             <div class="clearfix">
               <el-button style="float: right;" @click="AddRelation">添加详细记录</el-button>
             </div>
@@ -174,7 +174,10 @@
           // 得到联系记录列表
           getRelation(msg1).then(res => {
             this.relations = res.data.data.relations
-           
+            console.log(this.relations)
+            console.log(this.relations.map(item =>{
+              return item.desc.slice(0,3)
+            }))
             this.sum = res.data.data.sum
           })
         })
