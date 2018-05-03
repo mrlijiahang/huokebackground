@@ -13,10 +13,12 @@
         <el-table-column label="详情">
           <template slot-scope="scope">
             <el-button @click="message(scope.row, TB)">查看详情信息</el-button>
-          </template>
+          </template>   
         </el-table-column>
       </el-table>
-      <!-- 分页器 -->
+      <button @click="sub">+++</button>
+      <h1>{{$store.state.auid}}</h1>
+            <!-- 分页器 -->
       <div style="text-align: center;margin-top: 3%">
         <el-pagination layout="prev, pager, next,total" :total="sum" :page-size=5 @current-change='page'>
         </el-pagination>
@@ -67,6 +69,7 @@
     getUserlistmsg,
     transformDateWithTime
   } from '../api/login'
+  import store from '../store/Customer'
   export default {
     data() {
       return {
@@ -91,6 +94,9 @@
           return 'success-row';
         }
         return 'default';
+      },
+      sub(){
+        this.$store.dispatch('get')
       },
       message(row) {
         this.dialogTableVisible = true

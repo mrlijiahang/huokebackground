@@ -62,19 +62,8 @@ export default {
     }
   },
   created() {
-    // this.$route.path='/1/customer'
-    // console.log(this.$route)
-    // console.log(this.$route.path)
-    // this.$route.path = "/1/customer"
   }
 }
 </script>
 <style scoped>
-/* .fade-enter-active ,.fade-leave-active{
-  transition:   opacity  .3s;
-}
-.fade-enter, .fade-leave-to {
-  opacity:  0;
-} */
-
 </style>

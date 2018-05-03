@@ -11,10 +11,6 @@ const state = {
 const mutations = {
   add(state, payload) {
     state.count += payload.n
-    // console.log(this)
-    // console.log(this.state)
-    // console.log(this.Store)
-    // console.log(this.state.name)
   },
   reduce(state, payload) {
     state.count -= payload.n
