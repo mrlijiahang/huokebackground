@@ -3,7 +3,7 @@
     <div style="padding-top: 18%">
       <h1 style="color: white">获客小程序后台系统</h1>
       <div class="contain">
-        <el-form :model="form" status-icon @keyup.enter.native="show" :rules="rule1" ref="form">
+        <el-form :model="form" status-icon @keyup.enter.native="submitkeycode" :rules="rule1" ref="form">
           <el-form-item prop='name'>
             <el-input v-model="form.name" placeholder="请输入账号"></el-input>
           </el-form-item>
@@ -20,7 +20,9 @@
 <script>
   /* eslint-disable */
   import store from '../store/index.js'
-  import {adminlogin} from '../api/login'
+  import {
+    adminlogin
+  } from '../api/login'
   export default {
     data() {
       var validateName = (rule, value, callback) => {
@@ -37,7 +39,6 @@
           callback();
         }
       };
-
       return {
         isActive: true,
         form: {
@@ -57,36 +58,31 @@
       }
     },
     methods: {
+      login(msg) {
+        adminlogin(msg).then(res => {
+          if (res.data.code === 1000) {
+            this.$store.state.auid = res.data.data.auid
+            this.$router.push({
+              path: '/1/customer'
+            })
+          } else {
+            alert('账户信息请联系chinabyte')
+          }
+        })
+      },
       submit() {
         let msg = {
           username: this.form.name,
           password: this.form.pass
         }
-        adminlogin(msg).then(res => {
-          if (res.data.code === 1000) {
-            this.$router.push({
-              path: '/1/customer'
-            })
-          }
-          console.log(res.data)
-        })
-
+        this.login(msg)
       },
-
-      show() {
-          let msg = {
+      submitkeycode() {
+        let msg = {
           username: this.form.name,
           password: this.form.pass
         }
-        adminlogin(msg).then(res => {
-          if (res.data.code === 1000) {
-            this.$router.push({
-              path: '/1/customer'
-            })
-          }
-          console.log(res.data)
-        })
-
+        this.login(msg)
       }
     },
 

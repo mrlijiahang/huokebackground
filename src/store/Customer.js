@@ -3,12 +3,13 @@ import Vuex from 'vuex'
 import { getUserlistmsg } from '../api/login'
 Vue.use(Vuex)
 const state = {
-  auid: 1,
+  auid: 0,
   num: 5,
   TB: [],
   sum: 0,
   form: {},
-  dialogTableVisible: false
+  dialogTableVisible: false,
+  index: 0
 }
 const mutations = {
   mes(state, payload) {
@@ -24,6 +25,17 @@ const actions = {
         context.state.sum = res.data.data.sum
       }
     )
+  },
+  paging(context) {
+    getUserlistmsg({
+      auid: context.state.auid,
+      num: context.state.num,
+      page: context.state.index
+    }).then(res => {
+      context.state.TB = res.data.data.users
+      context.state.sum = res.data.data.sum
+      console.log(res)
+    })
   }
 }
 
