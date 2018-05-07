@@ -5,10 +5,10 @@
       <div class="contain">
         <el-form :model="form" status-icon @keyup.enter.native="submitkeycode" :rules="rule1" ref="form">
           <el-form-item prop='name'>
-            <el-input v-model="form.name" placeholder="请输入账号"></el-input>
+            <el-input v-model="form.name" placeholder="请输入账号" value="管理员1"></el-input>
           </el-form-item>
           <el-form-item prop='pass'>
-            <el-input v-model="form.pass" placeholder="请输入密码" type="password"></el-input>
+            <el-input v-model="form.pass" placeholder="请输入密码" type="password" value="111111"></el-input>
           </el-form-item>
           <el-button class="btn" @click="submit">登录</el-button>
         </el-form>
@@ -20,6 +20,7 @@
 <script>
   /* eslint-disable */
   import store from '../store/index.js'
+  import Cookies from 'js-cookie'
   import {
     adminlogin
   } from '../api/login'
@@ -62,6 +63,8 @@
         adminlogin(msg).then(res => {
           if (res.data.code === 1000) {
             this.$store.state.auid = res.data.data.auid
+            Cookies.set('auid', res.data.data.auid)
+            console.log(1)
             this.$router.push({
               path: '/1/customer'
             })

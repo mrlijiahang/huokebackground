@@ -1,15 +1,15 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Call from '@/components/Call'
 import Customer from '@/components/Customer'
 import ServiceSetting from '@/components/ServerSetting'
 import Login from '@/components/Login'
 import Store from '@/components/Fuwenben'
-Vue.use(Router)
+import Cookies from 'js-cookie'
 
-export default new Router({
-  // mode: 'history',
+Vue.use(VueRouter)
+const router = new VueRouter({
   routes: [
     {
       path: '/',
@@ -21,24 +21,28 @@ export default new Router({
     },
     {
       path: '/2',
-      component: Login
+      component: Login,
+      name: 'login'
     },
     {
       path: '/1',
-      name: 'login',
       component: HelloWorld,
+      meta: {
+        requireAuth: true
+      },
       children: [
         {
           path: 'customer',
           component: Customer,
+          name: 'Customer',
           meta: {
             title: 'customerlist'
           }
         },
-
         {
           path: 'call',
           component: Call,
+          name: 'Call',
           meta: {
             title: 'calllist'
           }
@@ -46,6 +50,7 @@ export default new Router({
         {
           path: 'servicesetting',
           component: ServiceSetting,
+          name: 'ServiceSetting',
           meta: {
             title: 'servicesettinglist'
           }
@@ -54,3 +59,16 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (Cookies.get('auid')) {
+    next()
+  } else {
+    if (to.name === 'login') {
+      next()
+    } else {
+      next({ name: 'login' })
+    }
+  }
+})
+export default router

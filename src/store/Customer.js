@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { getUserlistmsg } from '../api/login'
+import Cookies from 'js-cookie'
 Vue.use(Vuex)
 const state = {
-  auid: 0,
+  auid: Cookies.get('auid') || 0,
   num: 5,
   TB: [],
   sum: 0,
@@ -19,10 +20,15 @@ const mutations = {
 }
 const actions = {
   get(context) {
+    console.log('auid===>' + context.state.auid)
+    console.log('num===>' + context.state.num)
     getUserlistmsg({ auid: context.state.auid, num: context.state.num }).then(
       res => {
+        console.log('页面加载开始数据请求')
+        console.log(res.data)
         context.state.TB = res.data.data.users
         context.state.sum = res.data.data.sum
+        console.log(res.data.data)
       }
     )
   },

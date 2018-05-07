@@ -20,27 +20,13 @@
 <script>
 /* eslint-disable */
 import { adminlogout } from '../api/login'
+import Cookies from 'js-cookie'
 export default {
   data() {
     return {
       transitionName:'fade'
     }
   },
-  // watch:{
-  //   '$route' (to,from) {
-  //     console.log(from.path)
-  //     console.log(this.$router)
-  //     if(to.path =='/1/customer'){
-  //       this.transitionName = 'fade'
-  //     }else if(from.path == '/1/call'){
-  //       this.transitionName ='fade'
-  //     }else if(from.path =='/1/servicesetting'){
-  //       this.transitionName='fade'
-  //     }
-
-  //   }
-
-  // },
   methods: {
     handleSelect(key, keyPath) {
       if (key === '2') {
@@ -54,6 +40,7 @@ export default {
     logout() {
       adminlogout().then(res => {
         if (res.data.code === 1000) {
+          Cookies.remove('auid')
           this.$router.push({
             path: '/2'
           })

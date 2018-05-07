@@ -74,7 +74,6 @@
     },
     created() {
       this.$store.dispatch('get')
-      console.log(this.$store.state.auid)
     },
     methods: {
       tableRowClassName({
