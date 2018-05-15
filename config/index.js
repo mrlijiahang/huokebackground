@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/index.php': {
-        target: 'http://huoke.chinabyte.net',
+        target: 'https://huoke.chinabyte.com',
         changeOrigin: true
       }
     },

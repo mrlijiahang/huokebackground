@@ -86,7 +86,7 @@ export function transformDateWithTime(date) {
     let hour = time.getHours() < 10 ? '0' + time.getHours() : time.getHours()
     let second =
       time.getSeconds() < 10 ? '0' + time.getSeconds() : time.getSeconds()
-    let newTime = year + '-' + month + '-' + day + '  ' + hour + ':' + second
+    let newTime = year + '-' + month + '-' + day + '  ' + hour + '点'
     return newTime
   }
 }

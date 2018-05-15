@@ -109,6 +109,7 @@
     },
     created() {
       this.getOrderList()
+      // this.fotTime()
     },
     methods: {
             tableRowClassName({
@@ -166,6 +167,7 @@
         }
         addRelation(msg).then(res => {
           this.desc = ''
+          
           let msg1 = {
             auid: 1,
             oid: this.oid,
@@ -174,10 +176,13 @@
           // 得到联系记录列表
           getRelation(msg1).then(res => {
             this.relations = res.data.data.relations
-            console.log(this.relations)
-            console.log(this.relations.map(item =>{
-              return item.desc.slice(0,3)
-            }))
+            // console.log(this.relations)
+            // console.log(this.relations.map(item =>{
+            //   return item.desc.slice(0,3)
+            // }))
+            this.relations.map(item => {
+            item.create_time = transformDateWithTime(item.create_time)
+          })
             this.sum = res.data.data.sum
           })
         })
