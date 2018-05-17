@@ -30,7 +30,7 @@
           <p>导图</p>
           <el-form-item prop="icon">
             <el-input v-model="form.icon" :clearable='true' style="display:none"></el-input>
-            <el-upload list-type="picture" ref='ricon' :show-file-list=true :limit=1 action='http://huoke.chinabyte.net/index.php/generic/upload' :on-success="upIcon" drag class="upload-demo">
+            <el-upload list-type="picture" ref='ricon' :show-file-list=true :limit=1 action='https://huoke.chinabyte.com/index.php/generic/upload' :on-success="upIcon" drag class="upload-demo">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
@@ -41,7 +41,7 @@
           <p>图标</p>
           <el-form-item prop="daotuimg">
              <el-input v-model="form.daotuimg" :clearable='true' style="display:none"></el-input>
-          <el-upload list-type="picture" ref="rdaotuimg" :show-file-list=true :limit=1 :on-success="updaotu" drag action='http://huoke.chinabyte.net/index.php/generic/upload' class="upload-demo">
+          <el-upload list-type="picture" ref="rdaotuimg" :show-file-list=true :limit=1 :on-success="updaotu" drag action='https://huoke.chinabyte.com/index.php/generic/upload' class="upload-demo">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
